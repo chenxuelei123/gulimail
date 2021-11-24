@@ -20,5 +20,6 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     List<CategoryEntity> listWidthTree();
 
+    void removeMenuByIds(List<Long> asList);
 }
 

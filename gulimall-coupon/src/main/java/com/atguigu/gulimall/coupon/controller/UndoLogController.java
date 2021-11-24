@@ -17,10 +17,13 @@ import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author xueleichen
  * @email xueleichen@mall.com
- * @date 2021-11-09 23:37:13
+ * @date 2021-11-07 12:18:22
  */
 @RestController
 @RequestMapping("coupon/undolog")
@@ -32,7 +35,7 @@ public class UndoLogController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = undoLogService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -43,8 +46,8 @@ public class UndoLogController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id) {
-        UndoLogEntity undoLog = undoLogService.getById(id);
+    public R info(@PathVariable("id") Long id){
+		UndoLogEntity undoLog = undoLogService.getById(id);
 
         return R.ok().put("undoLog", undoLog);
     }
@@ -53,8 +56,8 @@ public class UndoLogController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody UndoLogEntity undoLog) {
-        undoLogService.save(undoLog);
+    public R save(@RequestBody UndoLogEntity undoLog){
+		undoLogService.save(undoLog);
 
         return R.ok();
     }
@@ -63,8 +66,8 @@ public class UndoLogController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody UndoLogEntity undoLog) {
-        undoLogService.updateById(undoLog);
+    public R update(@RequestBody UndoLogEntity undoLog){
+		undoLogService.updateById(undoLog);
 
         return R.ok();
     }
@@ -73,8 +76,8 @@ public class UndoLogController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids) {
-        undoLogService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids){
+		undoLogService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

@@ -1,17 +1,21 @@
 package com.atguigu.gulimall.coupon.controller;
 
+import java.util.Arrays;
+import java.util.Map;
+
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.atguigu.gulimall.coupon.entity.SmsCouponEntity;
+import com.atguigu.gulimall.coupon.service.SmsCouponService;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
-import com.atguigu.gulimall.coupon.entity.CouponEntity;
-import com.atguigu.gulimall.coupon.service.CouponService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -19,42 +23,20 @@ import java.util.Map;
  *
  * @author xueleichen
  * @email xueleichen@mall.com
- * @date 2021-11-09 23:37:13
+ * @date 2021-11-07 12:18:22
  */
-//动态获取并刷新配置   自动刷新nocas配置中心配置文件
-@RefreshScope
 @RestController
-@RequestMapping("coupon/coupon")
+@RequestMapping("coupon/smscoupon")
 public class CouponController {
     @Autowired
-    private CouponService couponService;
-
-    //@Value 获取配置文件信息  优先从配置中心获取  其次从当前应用配置文件获取
-    //配置nacos，新建boostrap.properties,配置参数
-    @Value("${coupon.user.name}")
-    private String name;
-    @Value("${coupon.user.age}")
-    private Integer age;
-
-    @RequestMapping("/test")
-    public R test() {
-        return R.ok().put("name", name).put("age", age);
-    }
-
-    @RequestMapping("/member/list")
-    public R membercoupons() {
-        CouponEntity couponEntity = new CouponEntity();
-        couponEntity.setCouponName("满一百减十...");
-        return R.ok().put("coupons", Arrays.asList(couponEntity));
-    }
+    private SmsCouponService smsCouponService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = couponService.queryPage(params);
-
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = smsCouponService.queryPage(params);
         return R.ok().put("page", page);
     }
 
@@ -63,18 +45,18 @@ public class CouponController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id) {
-        CouponEntity coupon = couponService.getById(id);
+    public R info(@PathVariable("id") Long id){
+		SmsCouponEntity smsCoupon = smsCouponService.getById(id);
 
-        return R.ok().put("coupon", coupon);
+        return R.ok().put("smsCoupon", smsCoupon);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody CouponEntity coupon) {
-        couponService.save(coupon);
+    public R save(@RequestBody SmsCouponEntity smsCoupon){
+		smsCouponService.save(smsCoupon);
 
         return R.ok();
     }
@@ -83,8 +65,8 @@ public class CouponController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody CouponEntity coupon) {
-        couponService.updateById(coupon);
+    public R update(@RequestBody SmsCouponEntity smsCoupon){
+		smsCouponService.updateById(smsCoupon);
 
         return R.ok();
     }
@@ -93,8 +75,8 @@ public class CouponController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids) {
-        couponService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids){
+		smsCouponService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
